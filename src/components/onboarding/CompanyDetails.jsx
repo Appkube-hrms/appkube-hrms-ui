@@ -30,7 +30,10 @@ const CompanyDetails = ({ step, setStep }) => {
 const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
 
 // console.log(personalData);
-  const [company , setCompany] = useState({})
+  // const [company , setCompany] = useState({})
+  const [company, setCompany] = useState(() => {
+    return companyData !== undefined ? companyData : {};
+  });
   const dispatch = useDispatch()
 
   const getCompanyData = (e) =>{
@@ -128,6 +131,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             onChange={getCompanyData}
             placeholder="Address Line 2"
             className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            value={companyData.address_line_2 !== undefined ? companyData.address_line_2 : "" || companyData.address_line_2 }
           />
 
           <div>

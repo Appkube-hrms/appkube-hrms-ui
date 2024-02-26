@@ -33,7 +33,10 @@ const Onboarding = ({ step, setStep }) => {
   const { Option } = Select;
   const router = useRouter();
   
-  const [personal , setPersonal] = useState({})
+  // const [personal , setPersonal] = useState({})
+  const [personal, setPersonal] = useState(() => {
+    return personalData !== undefined ? personalData : {};
+  });
   const dispatch = useDispatch()
 
   const getUserData = (e) =>{
