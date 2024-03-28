@@ -28,6 +28,7 @@ const Page = () => {
     date.setTime(date.getTime() + expiresInDays * 24 * 60 * 60 * 1000);
     const expires = "expires=" + date.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    // localStorage.setItem("access_token", accessToken);
   };
 
   const signinCheck = async (values) => {
@@ -44,6 +45,7 @@ const Page = () => {
       const response = await axios.post("/signin", data);
       console.log("response", response);
       if (response.status == 200) {
+        console.log('in 200 if block');
         //getting accesstoken from response
         const accessToken = response.data.AccessToken;
         // Set the access token in a cookie
@@ -52,6 +54,8 @@ const Page = () => {
           response.data.Result.email == "" ||
           response.data.Result.work_email == ""
         ) {
+        console.log("in 2 200 if block");
+
           router.push("/onboarding");
         } else {
           router.push("/hrms");
@@ -62,7 +66,7 @@ const Page = () => {
     } catch (error) {
       console.log("error", error);
       console.log(error.response?.data?.message);
-      console.log(error.request.status);
+      // console.log(error.request.status);
       if (error.request.status == 403) {
         setEmailVerified(false);
         setValid(true);

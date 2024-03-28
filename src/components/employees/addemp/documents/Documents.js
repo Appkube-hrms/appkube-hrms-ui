@@ -38,14 +38,92 @@ const Documents = ({ tab, setTab }) => {
     console.log(info.file, info.fileList, "these are lists of files ");
     console.log(info.fileList, "THis is inof multiple ");
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result;
-        setReq({ fileName: file.name, data: base64 });
-        setfileuploaded(true);
-      };
-      reader.readAsDataURL(file);
+
+const Documents = ({tab,setTab}) => {
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+const [req, setReq] = useState(
+  {fileName:'' , data: '' }
+);
+
+const [fileuploaded, setfileuploaded] = useState(false)
+const accessToken = getAccessTokenFromCookie();
+const handleFileChange = (info) => {
+  const file = info.file.originFileObj; // Access the selected file object
+  console.log("THis is file",file)
+  console.log("This is info file",info.file)
+console.log(info.file, info.fileList, 'these are lists of files ');
+console.log(info.fileList,'THis is inof multiple ')
+
+  if (file){
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setReq({ fileName: file.name, data: base64 });
+      setfileuploaded(true)
+    
+
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+console.log(req)
+
+
+
+  const [Attachments, setAttachments] = useState([])
+
+
+const uploadFile = async () => {
+
+
+  try {
+
+const response = await axios.post( 'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload' ,
+
+      req,{
+
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+
+    );
+
+    console.log(response.data);
+    alert('Image uploaded successfully!');
+    // setAttachments(response.data.link);
+    setAttachments([...Attachments, response.data.link])
+
+  } 
+
+catch (error) {
+    console.error(error);
+    console.log(error)
+    alert('Error uploading image. Please try again.');
+  }
+
+
+}
+
+
+if(fileuploaded){
+  // useEffect(()=>{
+    uploadFile(),
+    setfileuploaded(false)
+    
     }
   };
 
@@ -162,5 +240,6 @@ const Documents = ({ tab, setTab }) => {
     </div>
   );
 };
+}
 
 export default Documents;
